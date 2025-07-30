@@ -1,0 +1,181 @@
+{
+  "type": "object",
+  "properties": {
+    "scraping_service": {
+      "$ref": "#/$defs/ZyteScrapingServiceFileConfig"
+    },
+    "llm_service": {
+      "$ref": "#/$defs/OpenaiLlmServiceFileConfig"
+    },
+    "worker": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "sync",
+          "default": "sync"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sites": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "base_url": {
+            "type": "string"
+          },
+          "pagination": {
+            "type": "object",
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "start": {
+                "type": "integer",
+                "default": 0
+              },
+              "stop": {
+                "type": "integer",
+                "default": 50
+              },
+              "step": {
+                "type": "integer",
+                "default": 1
+              }
+            },
+            "required": ["template"],
+            "additionalProperties": false
+          },
+          "scraping_service": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ZyteScrapingServiceFileConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "html_processor": {
+            "type": "object",
+            "properties": {
+              "link_selector": {
+                "type": "string"
+              },
+              "title_selector": {
+                "type": "string"
+              },
+              "content_selector": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "beautiful-soup",
+                "default": "beautiful-soup"
+              }
+            },
+            "required": ["link_selector", "title_selector", "content_selector"],
+            "additionalProperties": false
+          },
+          "llm_service": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/OpenaiLlmServiceFileConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "base_url",
+          "pagination",
+          "scraping_service",
+          "html_processor",
+          "llm_service"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "max_pages": {
+      "type": "integer",
+      "default": 50
+    }
+  },
+  "required": ["scraping_service", "llm_service", "worker", "sites"],
+  "additionalProperties": false,
+  "$defs": {
+    "ZyteScrapingServiceFileConfig": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string"
+        },
+        "api_key": {
+          "type": ["string", "null"],
+          "default": null
+        },
+        "requires_browser": {
+          "type": "boolean",
+          "default": false
+        },
+        "type": {
+          "type": "string",
+          "const": "zyte",
+          "default": "zyte"
+        }
+      },
+      "required": ["base_url"],
+      "additionalProperties": false
+    },
+    "OpenaiLlmServiceFileConfig": {
+      "type": "object",
+      "properties": {
+        "base_url": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "extraction_prompt": {
+          "type": "string"
+        },
+        "summary_prompt": {
+          "type": "string"
+        },
+        "scoring_prompt": {
+          "type": "string"
+        },
+        "cv": {
+          "type": ["string", "null"],
+          "default": null
+        },
+        "api_key": {
+          "type": ["string", "null"],
+          "default": null
+        },
+        "thinking_regex": {
+          "type": ["string", "null"],
+          "default": null
+        },
+        "type": {
+          "type": "string",
+          "const": "openai",
+          "default": "openai"
+        }
+      },
+      "required": [
+        "base_url",
+        "model",
+        "extraction_prompt",
+        "summary_prompt",
+        "scoring_prompt"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft/2020-12/schema#"
+}

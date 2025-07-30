@@ -1,0 +1,33 @@
+[project]
+name = "truffle"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = ["truffle-cli", "tomlkit>=0.13.3"]
+
+[dependency-groups]
+dev = [
+  "pyright >=1.1.334",
+  "ruff >=0.1.4",
+  "pytest>=8.4.1",
+  "pytest-cov>=6.2.1",
+  "nuitka>=2.7.12",
+]
+
+[tool.uv.sources]
+truffle-cli = { workspace = true }
+
+[tool.uv.workspace]
+members = ["src/cli"]
+
+[project.scripts]
+truffle-cli = "truffle_cli:main"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+
+[tool.ruff]
+line-length = 80
+indent-width = 2
+fix = true
+show-fixes = true
+lint.extend-select = ["I"]

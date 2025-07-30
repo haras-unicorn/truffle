@@ -1,0 +1,21 @@
+[project]
+name = "truffle-cli"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "apischema>=0.19.0",
+  "beautifulsoup4 >=4.13.4",
+  "dacite>=1.9.2",
+  "omegaconf >=2.3.0",
+  "platformdirs >=4.3.8",
+  "pyyaml >=6.0.2",
+  "requests >=2.32.4",
+  "simple-parsing>=0.1.7",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+truffle-cli = "truffle_cli:main"

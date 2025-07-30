@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "python": "python",
+      "name": "Truffle CLI",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "truffle_cli"
+    }
+  ]
+}
